@@ -2,14 +2,20 @@ import React, { useEffect, useState, useRef } from 'react';
 import './Auth.css';
 import PasswordTooltip from '../Tooltip/PasswordTooltip';
 import { validatePassword, validateEmail } from '../../utils/Validations';
+import useAuth from '../../custom-hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Register() {
+  const { error } = useSelector((state) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [showValidationError, setShowValidationError] = useState(false);
   const tooltipRef = useRef(null);
+  const { registerUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (tooltipRef.current && password.length > 0) {
@@ -23,7 +29,8 @@ function Register() {
   }, [password]);
 
   useEffect(() => {
-    if (!email && !password && showError) setShowError(false);
+    if (!email && !password && showValidationError)
+      setShowValidationError(false);
     const { isValidPassword } = validatePassword(password);
     const isEmailValid = validateEmail(email);
     setIsPasswordValid(isValidPassword);
@@ -41,10 +48,12 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isPasswordValid || !isEmailValid) {
-      setShowError(true);
+      setShowValidationError(true);
       return;
     }
-    console.log('submit');
+    const res = registerUser(email, password);
+    if (!res) return;
+    navigate('/');
   };
 
   return (
@@ -71,9 +80,11 @@ function Register() {
                 onChange={handlePasswordChange}
               />
             </label>
-            <PasswordTooltip ref={tooltipRef} password={password} />
+            {!isPasswordValid && (
+              <PasswordTooltip ref={tooltipRef} password={password} />
+            )}
           </div>
-          {showError && (
+          {showValidationError && (
             <div className="error">
               {!isEmailValid &&
                 !isPasswordValid &&
@@ -82,6 +93,7 @@ function Register() {
               {!isPasswordValid && isEmailValid && `Password is not valid`}
             </div>
           )}
+          {error && <div className="error">{error}</div>}
 
           <button className="primary-button">Register</button>
         </form>
