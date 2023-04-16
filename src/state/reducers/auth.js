@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isAuthenticated: false,
-  userData: null,
-  TRELLO_USERS: [],
+  isAuthenticated: localStorage.getItem('localIsAuthenticated') || false,
+  userData: localStorage.getItem('localUserData') || null,
+  TRELLO_USERS: localStorage.getItem('localTrelloUsers') || [],
   error: null,
 };
 

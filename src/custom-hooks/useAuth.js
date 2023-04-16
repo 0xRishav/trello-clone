@@ -15,8 +15,8 @@ const useAuth = () => {
     'localIsAuthenticated',
     isAuthenticated || false
   );
-  const [locatUserData, setLocalUserData] = useLocalStorage(
-    'locatUserData',
+  const [localUserData, setLocalUserData] = useLocalStorage(
+    'localUserData',
     userData || null
   );
 
