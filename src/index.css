@@ -70,6 +70,7 @@ code {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  text-decoration: none;
 }
 
 .primary-button {
@@ -87,12 +88,12 @@ code {
 
 .primary-button:hover {
   background-color: #4aa5d4;
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .secondary-button:hover {
   background-color: var(--color-blue);
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .error {

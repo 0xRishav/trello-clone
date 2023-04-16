@@ -1,5 +1,5 @@
 .taskCard {
-  background-color: #fff;
+  background-color: var(--color-white);
   padding: 0.5rem;
   margin: 0.5rem 0;
   border-radius: 3px;
