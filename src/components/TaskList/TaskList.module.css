@@ -1,0 +1,70 @@
+.taskList {
+  display: flex;
+  flex-direction: column;
+  background-color: #ebecf0;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  border-radius: 3px;
+  width: 100%;
+  max-width: 300px;
+  min-height: 100px;
+}
+
+.taskList h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
+  background-color: #cdd2d4;
+  border-radius: 3px;
+}
+.add_task_btn {
+  width: '100%';
+  height: 100px;
+  background-color: #f7f7f7;
+  border: 2px dashed #aaa;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+}
+.modal_content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.task_title_label,
+.task_description_label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+.task_title,
+.task_description {
+  width: 95%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #4b5563;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  appearance: none;
+  outline: none;
+  resize: none;
+}
+
+.task_title::placeholder,
+.task_description::placeholder {
+  color: #9ca3af;
+}
+
+.task_title:focus,
+.task_description:focus {
+  border-color: #6b7280;
+}
