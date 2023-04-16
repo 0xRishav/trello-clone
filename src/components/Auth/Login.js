@@ -40,7 +40,7 @@ function Login() {
     }
     const res = loginUser(email, password);
     if (!res) return;
-    navigate('/');
+    navigate('/dashboard');
   };
 
   const handleRegisterRedirect = () => {
