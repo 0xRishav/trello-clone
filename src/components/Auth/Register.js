@@ -35,7 +35,7 @@ function Register() {
     const isEmailValid = validateEmail(email);
     setIsPasswordValid(isValidPassword);
     setIsEmailValid(isEmailValid);
-  }, [email, password]);
+  }, [email, password, showValidationError]);
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
