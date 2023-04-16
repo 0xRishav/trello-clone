@@ -28,6 +28,7 @@ const TaskCard = ({ task, index, moveTask, listId }) => {
       className={styles.taskCard}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={handleCardClick}
+      data-testid="task-card"
     >
       <h4>{task.title}</h4>
       <p>{task.description}</p>

@@ -4,7 +4,8 @@ import PasswordTooltip from '../Tooltip/PasswordTooltip';
 import { validatePassword, validateEmail } from '../../utils/Validations';
 import useAuth from '../../custom-hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setError } from '../../state/reducers/auth';
 
 function Register() {
   const { error } = useSelector((state) => state.auth);
@@ -16,6 +17,7 @@ function Register() {
   const tooltipRef = useRef(null);
   const { registerUser } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (tooltipRef.current && password.length > 0) {
@@ -47,13 +49,19 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isPasswordValid || !isEmailValid) {
-      setShowValidationError(true);
+    if (!isEmailValid && !isPasswordValid) {
+      dispatch(setError('Email & Password not valid'));
+      return;
+    } else if (!isEmailValid) {
+      dispatch(setError('Email is not valid'));
+      return;
+    } else if (!isPasswordValid) {
+      dispatch(setError('Password is not valid'));
       return;
     }
     const res = registerUser(email, password);
     if (!res) return;
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return (

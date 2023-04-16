@@ -3,15 +3,16 @@ import { validateEmail, validatePassword } from '../../utils/Validations';
 import useAuth from '../../custom-hooks/useAuth';
 import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import { setError } from '../../state/reducers/auth';
 
 function Login() {
   const [email, setEmail] = useState('');
   const { error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
-  const tooltipRef = useRef(null);
   const { loginUser } = useAuth();
   const navigate = useNavigate();
 
@@ -34,8 +35,14 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isPasswordValid || !isEmailValid) {
-      setShowValidationError(true);
+    if (!isEmailValid && !isPasswordValid) {
+      dispatch(setError('Email & Password not valid'));
+      return;
+    } else if (!isEmailValid) {
+      dispatch(setError('Email is not valid'));
+      return;
+    } else if (!isPasswordValid) {
+      dispatch(setError('Password is not valid'));
       return;
     }
     const res = loginUser(email, password);
@@ -71,15 +78,6 @@ function Login() {
               />
             </label>
           </div>
-          {showValidationError && (
-            <div className="error">
-              {!isEmailValid &&
-                !isPasswordValid &&
-                `Email & Password not valid`}
-              {!isEmailValid && isPasswordValid && `Email is not valid`}
-              {!isPasswordValid && isEmailValid && `Password is not valid`}
-            </div>
-          )}
           {error && <div className="error">{error}</div>}
 
           <button className="primary-button">Login</button>

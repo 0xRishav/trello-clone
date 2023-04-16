@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import useLocalStorage from './useLocalStorage';
 import { login, logout, register, setError } from '../state/reducers/auth';
+import { validateEmail, validatePassword } from '../utils/Validations';
 
 const useAuth = () => {
   const dispatch = useDispatch();

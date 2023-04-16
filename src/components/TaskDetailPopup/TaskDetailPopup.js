@@ -17,7 +17,7 @@ const TaskDetailPopup = ({ task, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className={styles.overlay}>
+    <div className={styles.overlay} data-testid="overlay">
       <div className={styles.popup}>
         <h2>{title}</h2>
         <p>{description}</p>

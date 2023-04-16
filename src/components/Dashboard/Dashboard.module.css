@@ -68,6 +68,7 @@
   gap: 10px;
   cursor: pointer;
   text-align: center;
+  position: relative;
 }
 
 .add-project-btn:hover {
@@ -82,4 +83,42 @@
 .add-project-text {
   font-size: 18px;
   color: #aaa;
+}
+
+.modal_content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project_title_label,
+.project_description_label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.project_title,
+.project_description {
+  width: 95%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #4b5563;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  appearance: none;
+  outline: none;
+  resize: none;
+}
+
+.project_title::placeholder,
+.project_description::placeholder {
+  color: #9ca3af;
+}
+
+.project_title:focus,
+.project_description:focus {
+  border-color: #6b7280;
 }

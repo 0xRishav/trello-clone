@@ -11,9 +11,9 @@ const projectSlice = createSlice({
   reducers: {
     addProject: (state, action) => {
       const obj = {
-        id: nextId(),
-        title: `Project ${state.projects.length + 1}`,
-        description: 'A short description of the project.',
+        id: state.projects.length + 1,
+        title: action.payload.title,
+        description: action.payload.description,
         imageUrl: 'https://via.placeholder.com/300x200',
       };
       state.projects.push(obj);

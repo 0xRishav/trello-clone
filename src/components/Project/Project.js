@@ -5,104 +5,36 @@ import TaskList from '../TaskList/TaskList';
 import styles from './Project.module.css';
 import nextId from 'react-id-generator';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWorkFlow } from '../../state/reducers/workflow';
+import { cloneDeep } from 'lodash';
 
 const Project = ({ project }) => {
   const { projectId } = useParams();
+  const dispatch = useDispatch();
   const { projects } = useSelector((state) => state.project);
+  const { workflows } = useSelector((state) => state.workflow);
   const { title, description } = projects.find(
-    (project) => project.id === projectId
+    (project) => project.id === parseInt(projectId)
   );
 
-  const [workflows, setWorkflows] = useState([
-    {
-      id: nextId(),
-      title: 'To Do',
-      tasks: [
-        {
-          id: nextId(),
-          title: 'Task 1',
-          description: 'Task 1 description',
-        },
-        {
-          id: nextId(),
-          title: 'Task 2',
-          description: 'Task 2 description',
-        },
-        {
-          id: nextId(),
-          title: 'Task 3',
-          description: 'Task 3 description',
-        },
-        {
-          id: nextId(),
-          title: 'Task 4',
-          description: 'Task 4 description',
-        },
-      ],
-    },
-    {
-      id: nextId(),
-      title: 'In Progress',
-      tasks: [
-        {
-          id: nextId(),
-          title: 'Task 5',
-          description: 'Task 5 description',
-        },
-        {
-          id: nextId(),
-
-          title: 'Task 6',
-          description: 'Task 6 description',
-        },
-        {
-          id: nextId(),
-          title: 'Task 7',
-          description: 'Task 7 description',
-        },
-      ],
-    },
-    {
-      id: nextId(),
-      title: 'Done',
-      tasks: [
-        {
-          id: nextId(),
-          title: 'Task 8',
-          description: 'Task 8 description',
-        },
-        {
-          id: nextId(),
-          title: 'Task 9',
-          description: 'Task 9 description',
-        },
-        {
-          id: nextId(),
-          title: 'Task 10',
-          description: 'Task 10 description',
-        },
-      ],
-    },
-  ]);
-
-  const moveTask = (dragId, sourceListTitle, targetListTitle) => {
-    const sourceListIndex = workflows.findIndex(
-      (list) => list.title === sourceListTitle
+  const moveTask = (dragId, sourceListId, targetListId) => {
+    const workflowsCopy = cloneDeep(workflows);
+    const sourceListIndex = workflowsCopy.findIndex(
+      (list) => list.id === parseInt(sourceListId)
     );
-    const targetListIndex = workflows.findIndex(
-      (list) => list.title === targetListTitle
+    const targetListIndex = workflowsCopy.findIndex(
+      (list) => list.id === parseInt(targetListId)
     );
-
-    const sourceList = workflows[sourceListIndex];
+    if (sourceListIndex === -1 || targetListIndex === -1) return;
+    const sourceList = workflowsCopy[sourceListIndex];
     const dragIndex = sourceList.tasks.findIndex((task) => task.id === dragId);
+    if (dragIndex === -1) return;
     const draggedTask = sourceList.tasks[dragIndex];
     sourceList.tasks.splice(dragIndex, 1);
-
-    const targetList = workflows[targetListIndex];
+    const targetList = workflowsCopy[targetListIndex];
     targetList.tasks.push(draggedTask);
-
-    setWorkflows([...workflows]);
+    dispatch(setWorkFlow({ workflows: workflowsCopy }));
   };
 
   return (
@@ -128,6 +60,7 @@ const Project = ({ project }) => {
               title={workflow.title}
               tasks={workflow.tasks}
               moveTask={moveTask}
+              listId={workflow.id}
             />
           ))}
         </div>
